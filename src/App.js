@@ -1,15 +1,46 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
+import Board from './Board/index.js'
+import Title from './Title/index.js'
 import './App.css';
+import INITIAL_BOARD from "./INITIAL_BOARD";
 
 class App extends Component {
+  constructor() {
+    super();
+
+    this.state = {
+      board: INITIAL_BOARD,
+      playerTurn: 'x',
+      winner: null
+    };
+  }
+
+  // swapPlayer = this.bind(this.swapPlayer)
+
+  swapPlayer() {
+
+    let nextPlayer = (this.state.playerTurn === 'x' ? 'o' : 'x');
+    this.setState({playerTurn: nextPlayer})
+  }
+
+  move(squareId) {
+    console.log("squareId", squareId)
+    this.swapPlayer()
+  }
+
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
+          <Title playerTurn={'X got give it to you'}/>
+          <Board
+            onClickSquare={() => console.log(this.move)}
+            board={this.state.board}
+            playerTurn={this.state.playerTurn} turn/>
           <p>
-            Edit <code>src/App.js</code> and save to reload.
+            Edit <code>src/App.js</code>
           </p>
           <a
             className="App-link"
