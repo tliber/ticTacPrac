@@ -20,6 +20,7 @@ class App extends Component {
 
   swapPlayer() {
 
+    console.log('swap player')
     let nextPlayer = (this.state.playerTurn === 'x' ? 'o' : 'x');
     this.setState({playerTurn: nextPlayer})
   }
@@ -34,9 +35,9 @@ class App extends Component {
     return (
       <div className="App">
         <header className="App-header">
-          <Title playerTurn={'X got give it to you'}/>
+          <Title playerTurn={this.state.playerTurn}/>
           <Board
-            onClickSquare={() => console.log(this.move)}
+            onClickSquare={this.swapPlayer.bind(this)}
             board={this.state.board}
             playerTurn={this.state.playerTurn} turn/>
           <p>
