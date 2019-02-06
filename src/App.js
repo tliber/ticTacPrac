@@ -16,28 +16,46 @@ class App extends Component {
     };
   }
 
-  // swapPlayer = this.bind(this.swapPlayer)
+  updateBoard(loc) {
+    const board = this.state.board.slice();
+    board[loc[0]][loc[1]] = this.state.playerTurn;
+    this.setState({board: board});
+  }
 
   swapPlayer() {
-
-    console.log('swap player')
     let nextPlayer = (this.state.playerTurn === 'x' ? 'o' : 'x');
     this.setState({playerTurn: nextPlayer})
   }
 
-  move(squareId) {
-    console.log("squareId", squareId)
-    this.swapPlayer()
+  move(loc) {
+    this.updateBoard(loc);
+    this.checkWinner(loc)
+    this.swapPlayer();
   }
 
+
+  checkWinner(loc){
+    let row = loc[0];
+    let column = loc[1]
+    let boardState = this.state.board;
+
+    let wonRow = boardState[row].every((val) => val === this.state.playerTurn);
+    let wonColumn = boardState.every((val) => val[column] === this.state.playerTurn);
+    let crossAtRightTop = [boardState[0][0], boardState[1][1], boardState[2][2]].every((value => value === this.state.playerTurn));
+    let crossAtRightBottom = [boardState[0][0], boardState[1][1], boardState[2][2]].every((value => value === this.state.playerTurn));
+
+    if (wonRow || wonColumn || crossAtRightTop || crossAtRightBottom) {
+      this.setState({winner: this.state.playerTurn})
+    }
+  }
 
   render() {
     return (
       <div className="App">
         <header className="App-header">
-          <Title playerTurn={this.state.playerTurn}/>
+          <Title playerTurn={this.state.playerTurn} winner={this.state.winner}/>
           <Board
-            onClickSquare={this.swapPlayer.bind(this)}
+            onClickSquare={this.move.bind(this)}
             board={this.state.board}
             playerTurn={this.state.playerTurn} turn/>
           <p>

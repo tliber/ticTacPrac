@@ -9,14 +9,9 @@ class Square extends Component {
     }
   }
 
-
-
-
-  render(n) {
-    console.log('this.props sqr', this.props.turn(n))
-
+  render() {
     return (
-      <button onClick={this.props.turn(n)}>| {this.props.active} |</button>
+      <button onClick={() => this.props.turn()}>| {this.props.active} |</button>
     )
   }
 }
